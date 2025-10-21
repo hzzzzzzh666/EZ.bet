@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>温理工校园活动网-首页</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 延续登录页的Tailwind配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#36CFC9',
+            success: '#52C41A',
+            warning: '#FAAD14',
+            danger: '#FF4D4F',
+            neutral: {
+              100: '#F5F7FA',
+              200: '#E4E6EB',
+              300: '#C9CDD4',
+              400: '#86909C',
+              500: '#4E5969',
+              600: '#272E3B',
+              700: '#1D2129',
+            }
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'card': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02)',
+            'input': '0 2px 5px rgba(22, 93, 255, 0.08)',
+            'button': '0 4px 14px rgba(22, 93, 255, 0.35)',
+          }
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .bg-gradient-primary {
+        background: linear-gradient(135deg, #165DFF 0%, #36CFC9 100%);
+      }
+      .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        background-image: linear-gradient(135deg, #165DFF 0%, #36CFC9 100%);
+      }
+      .input-focus {
+        @apply focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none;
+      }
+      .btn-effect {
+        @apply transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98];
+      }
+      .card-hover {
+        @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+      }
+      .tag-active {
+        @apply bg-primary text-white border-primary;
+      }
+      .loading {
+        @apply opacity-70 pointer-events-none;
+      }
+      .loading::after {
+        content: '';
+        @apply inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full ml-2 animate-spin;
+      }
+    }
+  </style>
+</head>
+<body class="font-inter bg-neutral-100 min-h-screen">
+  <!-- 顶部导航栏 -->
+  <header class="sticky top-0 z-50 bg-white shadow-sm transition-all duration-300">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between h-16">
+        <!-- 左侧Logo -->
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+            <i class="fa fa-calendar text-white"></i>
+          </div>
+          <h1 class="text-xl font-bold text-neutral-700">温理工校园活动网</h1>
+        </div>
+        
+        <!-- 中间搜索框 - 仅在中等屏幕以上显示 -->
+        <div class="hidden md:flex items-center flex-1 max-w-xl mx-8">
+          <div class="relative w-full">
+            <input type="text" id="searchInput" placeholder="搜索活动名称、类型或地点..." 
+                  class="w-full pl-10 pr-4 py-2 border border-neutral-200 rounded-full shadow-input transition-all duration-300 input-focus">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400">
+              <i class="fa fa-search"></i>
+            </span>
+          </div>
+        </div>
+        
+        <!-- 右侧功能区 -->
+        <div class="flex items-center space-x-4">
+          <!-- 发布活动按钮 -->
+          <button id="publishBtn" class="bg-primary text-white px-4 py-2 rounded-lg shadow-button hover:bg-primary/90 transition-all duration-300 btn-effect hidden sm:flex items-center space-x-1">
+            <i class="fa fa-plus"></i>
+            <span>发布活动</span>
+          </button>
+          
+          <!-- 用户信息 -->
+          <div class="relative group">
+            <button id="userMenuBtn" class="flex items-center space-x-2 focus:outline-none">
+              <img src="https://picsum.photos/200/200?random=1" alt="用户头像" class="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm">
+              <span class="hidden sm:inline-block text-neutral-600 font-medium">张同学</span>
+              <i class="fa fa-angle-down text-neutral-400 text-xs"></i>
+            </button>
+            
+            <!-- 下拉菜单 -->
+            <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-card overflow-hidden invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 z-50">
+              <a href="personal.html" class="block px-4 py-3 hover:bg-neutral-100 transition-colors duration-200 flex items-center space-x-2">
+                <i class="fa fa-user-o text-neutral-400"></i>
+                <span>个人中心</span>
+              </a>
+              <a href="collections.html" class="block px-4 py-3 hover:bg-neutral-100 transition-colors duration-200 flex items-center space-x-2">
+                <i class="fa fa-bookmark-o text-neutral-400"></i>
+                <span>我的收藏</span>
+              </a>
+              <a href="settings.html" class="block px-4 py-3 hover:bg-neutral-100 transition-colors duration-200 flex items-center space-x-2">
+                <i class="fa fa-cog text-neutral-400"></i>
+                <span>设置</span>
+              </a>
+              <div class="border-t border-neutral-100 my-1"></div>
+              <a href="login.html" id="logoutBtn" class="block px-4 py-3 hover:bg-neutral-100 transition-colors duration-200 flex items-center space-x-2 text-danger">
+                <i class="fa fa-sign-out"></i>
+                <span>退出登录</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- 移动端菜单按钮 -->
+          <button id="mobileMenuBtn" class="sm:hidden text-neutral-600 focus:outline-none">
+            <i class="fa fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 移动端搜索框 - 仅在小屏幕显示 -->
+    <div class="sm:hidden border-t border-neutral-100 px-4 py-2">
+      <div class="relative w-full">
+        <input type="text" id="mobileSearchInput" placeholder="搜索活动名称、类型或地点..." 
+              class="w-full pl-10 pr-4 py-2 border border-neutral-200 rounded-full shadow-input transition-all duration-300 input-focus">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 移动端底部导航 -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 sm:hidden z-40">
+    <div class="grid grid-cols-5 h-16">
+      <a href="index.html" class="flex flex-col items-center justify-center text-primary">
+        <i class="fa fa-home text-lg"></i>
+        <span class="text-xs mt-1">首页</span>
+      </a>
+      <a href="discover.html" class="flex flex-col items-center justify-center text-neutral-400 hover:text-primary transition-colors duration-200">
+        <i class="fa fa-compass text-lg"></i>
+        <span class="text-xs mt-1">发现</span>
+      </a>
+      <button id="mobilePublishBtn" class="flex flex-col items-center justify-center text-white bg-primary relative -top-4">
+        <div class="w-12 h-12 rounded-full bg-primary shadow-button flex items-center justify-center">
+          <i class="fa fa-plus text-lg"></i>
+        </div>
+      </button>
+      <a href="my-activities.html" class="flex flex-col items-center justify-center text-neutral-400 hover:text-primary transition-colors duration-200">
+        <i class="fa fa-calendar-o text-lg"></i>
+        <span class="text-xs mt-1">我的活动</span>
+      </a>
+      <a href="profile.html" class="flex flex-col items-center justify-center text-neutral-400 hover:text-primary transition-colors duration-200">
+        <i class="fa fa-user-o text-lg"></i>
+        <span class="text-xs mt-1">我的</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <main class="container mx-auto px-4 py-6 pb-20 sm:pb-6">
+    <!-- 轮播Banner - 仅在中等屏幕以上显示 -->
+    <div class="hidden md:block mb-8 rounded-2xl overflow-hidden shadow-card">
+      <div class="relative h-48 bg-gradient-to-r from-primary/90 to-secondary/90">
+        <div class="absolute inset-0 flex items-center px-8 md:px-16">
+          <div class="max-w-lg text-white">
+            <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold mb-2">2025校园文化艺术节</h2>
+            <p class="mb-4 opacity-90">10月15日-11月15日，一场汇聚音乐、舞蹈、戏剧的文化盛宴等你来参与！</p>
+            <button id="bannerRegisterBtn" class="bg-white text-primary px-4 py-2 rounded-lg hover:bg-neutral-100 transition-all duration-300 btn-effect">
+              立即报名
+            </button>
+          </div>
+        </div>
+        <img src="https://picsum.photos/1200/400?random=10" alt="艺术节海报" class="w-full h-full object-cover mix-blend-overlay opacity-30">
+      </div>
+    </div>
+    
+    <!-- 筛选工具栏 -->
+    <div class="bg-white rounded-xl shadow-card p-4 mb-6">
+      <div class="flex flex-col space-y-4">
+        <!-- 活动类型筛选标签 -->
+        <div>
+          <h3 class="text-sm font-medium text-neutral-600 mb-2">活动类型</h3>
+          <div class="flex flex-wrap gap-2">
+            <button class="px-3 py-1 rounded-full border border-neutral-200 text-neutral-600 hover:border-primary hover:text-primary transition-all duration-200 tag-active type-filter" data-type="all">
+              全部
+            </button>
+            <button class="px-3 py-1 rounded-full border border-neutral-200 text-neutral-600 hover:border-primary hover:text-primary transition-all duration-200 type-filter" data-type="academic">
+              学术讲座
+            </button>
+            <button class="px-3 py-1 rounded-full border border-neutral-200 text-neutral-600 hover:border-primary hover:text-primary transition-all duration-200 type-filter" data-type="cultural">
+              文艺活动
+            </button>
+            <button class="px-3 py-1 rounded-full border border-neutral-200 text-neutral-600 hover:border-primary hover:text-primary transition-all duration-200 type-filter" data-type="sports">
+              体育赛事
+            </button>
+            <button class="px-3 py-1 rounded-full border border-neutral-200 text-neutral-600 hover:border-primary hover:text-primary transition-all duration-200 type-filter" data-type="volunteer">
+              志愿服务
+            </button>
+            <button class="px-3 py-1 rounded-full border border-neutral-200 text-neutral-600 hover:border-primary hover:text-primary transition-all duration-200 type-filter" data-type="innovation">
+              创新创业
+            </button>
+          </div>
+        </div>
+        
+        <!-- 高级筛选栏 -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div>
+            <label class="text-sm font-medium text-neutral-600 block mb-1">时间范围</label>
+            <select id="timeFilter" class="w-full px-3 py-2 border border-neutral-200 rounded-lg shadow-input transition-all duration-300 input-focus appearance-none bg-white">
+              <option value="all">全部时间</option>
+              <option value="today">今天</option>
+              <option value="week">本周</option>
+              <option value="month">本月</option>
+              <option value="custom">自定义</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-neutral-600 block mb-1">活动地点</label>
+            <select id="locationFilter" class="w-full px-3 py-2 border border-neutral-200 rounded-lg shadow-input transition-all duration-300 input-focus appearance-none bg-white">
+              <option value="all">全部地点</option>
+              <option value="building1">第一教学楼</option>
+              <option value="building2">第二教学楼</option>
+              <option value="gym">体育馆</option>
+              <option value="activity-center">大学生活动中心</option>
+              <option value="square">户外广场</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-neutral-600 block mb-1">参与人数</label>
+            <select id="peopleFilter" class="w-full px-3 py-2 border border-neutral-200 rounded-lg shadow-input transition-all duration-300 input-focus appearance-none bg-white">
+              <option value="all">不限</option>
+              <option value="less10">10人以下</option>
+              <option value="10-50">10-50人</option>
+              <option value="50-100">50-100人</option>
+              <option value="more100">100人以上</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-neutral-600 block mb-1">发布单位</label>
+            <select id="orgFilter" class="w-full px-3 py-2 border border-neutral-200 rounded-lg shadow-input transition-all duration-300 input-focus appearance-none bg-white">
+              <option value="all">全部单位</option>
+              <option value="student-union">学生会</option>
+              <option value="associations">社团联合会</option>
+              <option value="academic">教务处</option>
+              <option value="league">团委</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- 筛选按钮 -->
+        <div class="flex justify-end space-x-3 pt-2">
+          <button id="resetFilterBtn" class="px-4 py-2 border border-neutral-200 rounded-lg text-neutral-600 hover:border-neutral-300 transition-all duration-300">
+            重置筛选
+          </button>
+          <button id="applyFilterBtn" class="px-4 py-2 bg-primary text-white rounded-lg shadow-button hover:bg-primary/90 transition-all duration-300 btn-effect">
+            应用筛选
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 活动列表 -->
+    <div>
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-neutral-700">推荐活动</h2>
+        <div class="flex items-center space-x-2">
+          <span class="text-sm text-neutral-400">排序方式:</span>
+          <select id="sortSelect" class="px-2 py-1 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-primary">
+            <option value="latest">最新发布</option>
+            <option value="popular">热门优先</option>
+            <option value="time">时间优先</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- 活动卡片网格 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="activitiesGrid">
+        <!-- 活动卡片1 -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden card-hover activity-card" data-type="cultural">
+          <div class="relative">
+            <img src="https://picsum.photos/600/400?random=1" alt="校园歌手大赛" class="w-full h-48 object-cover">
+            <span class="absolute top-3 left-3 bg-primary/90 text-white text-xs px-2 py-1 rounded-full">文艺活动</span>
+            <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-neutral-500 hover:text-danger transition-colors duration-200 favorite-btn">
+              <i class="fa fa-heart-o"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-neutral-700 text-lg mb-2 activity-title">第15届校园歌手大赛</h3>
+            <div class="flex items-center text-sm text-neutral-500 mb-3">
+              <i class="fa fa-calendar-o mr-1"></i>
+              <span>10月25日 18:30</span>
+              <span class="mx-2">|</span>
+              <i class="fa fa-map-marker mr-1"></i>
+              <span>大学生活动中心</span>
+            </div>
+            <p class="text-neutral-600 text-sm mb-4 line-clamp-2">
+              一年一度的校园歌手大赛来了！无论你是实力唱将还是音乐爱好者，都可以报名参与，展现你的音乐才华。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center text-sm text-neutral-500">
+                <i class="fa fa-users mr-1"></i>
+                <span>已有238人报名</span>
+              </div>
+              <button class="text-primary hover:text-primary/80 text-sm font-medium view-activity-btn" data-id="1">
+                查看详情 <i class="fa fa-angle-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 活动卡片2 -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden card-hover activity-card" data-type="academic">
+          <div class="relative">
+            <img src="https://picsum.photos/600/400?random=2" alt="人工智能讲座" class="w-full h-48 object-cover">
+            <span class="absolute top-3 left-3 bg-primary/90 text-white text-xs px-2 py-1 rounded-full">学术讲座</span>
+            <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-neutral-500 hover:text-danger transition-colors duration-200 favorite-btn">
+              <i class="fa fa-heart-o"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-neutral-700 text-lg mb-2 activity-title">人工智能发展与未来趋势讲座</h3>
+            <div class="flex items-center text-sm text-neutral-500 mb-3">
+              <i class="fa fa-calendar-o mr-1"></i>
+              <span>10月28日 14:00</span>
+              <span class="mx-2">|</span>
+              <i class="fa fa-map-marker mr-1"></i>
+              <span>第一教学楼101报告厅</span>
+            </div>
+            <p class="text-neutral-600 text-sm mb-4 line-clamp-2">
+              邀请知名AI领域专家讲解人工智能最新发展动态，探讨AI在各行业的应用前景，欢迎感兴趣的同学参加。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center text-sm text-neutral-500">
+                <i class="fa fa-users mr-1"></i>
+                <span>已有156人报名</span>
+              </div>
+              <button class="text-primary hover:text-primary/80 text-sm font-medium view-activity-btn" data-id="2">
+                查看详情 <i class="fa fa-angle-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 活动卡片3 -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden card-hover activity-card" data-type="sports">
+          <div class="relative">
+            <img src="https://picsum.photos/600/400?random=3" alt="校园篮球赛" class="w-full h-48 object-cover">
+            <span class="absolute top-3 left-3 bg-primary/90 text-white text-xs px-2 py-1 rounded-full">体育赛事</span>
+            <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-neutral-500 hover:text-danger transition-colors duration-200 favorite-btn">
+              <i class="fa fa-heart-o"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-neutral-700 text-lg mb-2 activity-title">2025年校园篮球联赛</h3>
+            <div class="flex items-center text-sm text-neutral-500 mb-3">
+              <i class="fa fa-calendar-o mr-1"></i>
+              <span>11月1日-11月15日</span>
+              <span class="mx-2">|</span>
+              <i class="fa fa-map-marker mr-1"></i>
+              <span>学校体育馆</span>
+            </div>
+            <p class="text-neutral-600 text-sm mb-4 line-clamp-2">
+              各学院派出代表队参与的篮球盛会，展现团队协作与竞技精神，欢迎同学们前来观赛助威。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center text-sm text-neutral-500">
+                <i class="fa fa-users mr-1"></i>
+                <span>已有8支队伍参赛</span>
+              </div>
+              <button class="text-primary hover:text-primary/80 text-sm font-medium view-activity-btn" data-id="3">
+                查看详情 <i class="fa fa-angle-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 活动卡片4 -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden card-hover activity-card" data-type="volunteer">
+          <div class="relative">
+            <img src="https://picsum.photos/600/400?random=4" alt="社区志愿服务" class="w-full h-48 object-cover">
+            <span class="absolute top-3 left-3 bg-primary/90 text-white text-xs px-2 py-1 rounded-full">志愿服务</span>
+            <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-neutral-500 hover:text-danger transition-colors duration-200 favorite-btn">
+              <i class="fa fa-heart-o"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-neutral-700 text-lg mb-2 activity-title">社区敬老志愿服务活动</h3>
+            <div class="flex items-center text-sm text-neutral-500 mb-3">
+              <i class="fa fa-calendar-o mr-1"></i>
+              <span>10月26日 9:00</span>
+              <span class="mx-2">|</span>
+              <i class="fa fa-map-marker mr-1"></i>
+              <span>大学城社区</span>
+            </div>
+            <p class="text-neutral-600 text-sm mb-4 line-clamp-2">
+              走进社区敬老院，为老人们提供陪伴、表演节目、打扫卫生等志愿服务，传递温暖与关爱。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center text-sm text-neutral-500">
+                <i class="fa fa-users mr-1"></i>
+                <span>已有42人报名</span>
+              </div>
+              <button class="text-primary hover:text-primary/80 text-sm font-medium view-activity-btn" data-id="4">
+                查看详情 <i class="fa fa-angle-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 活动卡片5 -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden card-hover activity-card" data-type="innovation">
+          <div class="relative">
+            <img src="https://picsum.photos/600/400?random=5" alt="创业大赛" class="w-full h-48 object-cover">
+            <span class="absolute top-3 left-3 bg-primary/90 text-white text-xs px-2 py-1 rounded-full">创新创业</span>
+            <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-neutral-500 hover:text-danger transition-colors duration-200 favorite-btn">
+              <i class="fa fa-heart-o"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-neutral-700 text-lg mb-2 activity-title">第七届大学生创业计划大赛</h3>
+            <div class="flex items-center text-sm text-neutral-500 mb-3">
+              <i class="fa fa-calendar-o mr-1"></i>
+              <span>11月5日 13:30</span>
+              <span class="mx-2">|</span>
+              <i class="fa fa-map-marker mr-1"></i>
+              <span>第二教学楼报告厅</span>
+            </div>
+            <p class="text-neutral-600 text-sm mb-4 line-clamp-2">
+              展示你的创业想法和商业计划，有机会获得创业基金和导师指导，为梦想插上翅膀。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center text-sm text-neutral-500">
+                <i class="fa fa-users mr-1"></i>
+                <span>已有36个项目参赛</span>
+              </div>
+              <button class="text-primary hover:text-primary/80 text-sm font-medium view-activity-btn" data-id="5">
+                查看详情 <i class="fa fa-angle-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 活动卡片6 -->
+        <div class="bg-white rounded-xl shadow-card overflow-hidden card-hover activity-card" data-type="cultural">
+          <div class="relative">
+            <img src="https://picsum.photos/600/400?random=6" alt="书画展" class="w-full h-48 object-cover">
+            <span class="absolute top-3 left-3 bg-primary/90 text-white text-xs px-2 py-1 rounded-full">文艺活动</span>
+            <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-neutral-500 hover:text-danger transition-colors duration-200 favorite-btn">
+              <i class="fa fa-heart-o"></i>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-neutral-700 text-lg mb-2 activity-title">校园书画摄影展</h3>
+            <div class="flex items-center text-sm text-neutral-500 mb-3">
+              <i class="fa fa-calendar-o mr-1"></i>
+              <span>10月30日-11月6日</span>
+              <span class="mx-2">|</span>
+              <i class="fa fa-map-marker mr-1"></i>
+              <span>图书馆展厅</span>
+            </div>
+            <p class="text-neutral-600 text-sm mb-4 line-clamp-2">
+              展示我校学生优秀的书画和摄影作品，感受艺术之美，陶冶情操，欢迎前来参观。
+            </p>
+            <div class="flex justify-between items-center">
+              <div class="flex items-center text-sm text-neutral-500">
+                <i class="fa fa-users mr-1"></i>
+                <span>已有124人预约</span>
+              </div>
+              <button class="text-primary hover:text-primary/80 text-sm font-medium view-activity-btn" data-id="6">
+                查看详情 <i class="fa fa-angle-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 加载更多按钮 -->
+      <div class="mt-8 text-center">
+        <button id="loadMoreBtn" class="px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary/5 transition-all duration-300 btn-effect">
+          加载更多活动
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- JavaScript 交互逻辑 -->
+  <script>
+    // DOM元素加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+      // 1. 发布活动按钮点击事件
+      const publishBtns = [
+        document.getElementById('publishBtn'),
+        document.getElementById('mobilePublishBtn')
+      ];
+      
+      publishBtns.forEach(btn => {
+        if (btn) {
+          btn.addEventListener('click', function() {
+            this.innerHTML = '<i class="fa fa-spinner fa-spin mr-1"></i> 加载中...';
+            this.classList.add('loading');
+            
+            // 模拟加载延迟
+            setTimeout(() => {
+              window.location.href = 'publish-activity.html';
+            }, 800);
+          });
+        }
+      });
+      
+      // 2. 搜索功能
+      const searchInputs = [
+        document.getElementById('searchInput'),
+        document.getElementById('mobileSearchInput')
+      ];
+      
+      searchInputs.forEach(input => {
+        if (input) {
+          input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+              const keyword = this.value.trim();
+              if (keyword) {
+                // 跳转到搜索结果页
+                window.location.href = `search.html?keyword=${encodeURIComponent(keyword)}`;
+              }
+            }
+          });
+        }
+      });
+      
+      // 3. 活动类型筛选
+      const typeFilters = document.querySelectorAll('.type-filter');
+      typeFilters.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // 移除所有按钮的active状态
+          typeFilters.forEach(b => b.classList.remove('tag-active'));
+          // 给当前点击的按钮添加active状态
+          this.classList.add('tag-active');
+          
+          const type = this.getAttribute('data-type');
+          const activities = document.querySelectorAll('.activity-card');
+          
+          // 筛选活动卡片
+          activities.forEach(card => {
+            if (type === 'all' || card.getAttribute('data-type') === type) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+      
+      // 4. 筛选按钮功能
+      document.getElementById('resetFilterBtn').addEventListener('click', function() {
+        // 重置所有筛选条件
+        document.getElementById('timeFilter').value = 'all';
+        document.getElementById('locationFilter').value = 'all';
+        document.getElementById('peopleFilter').value = 'all';
+        document.getElementById('orgFilter').value = 'all';
+        
+        // 重置类型筛选
+        typeFilters.forEach(b => b.classList.remove('tag-active'));
+        typeFilters[0].classList.add('tag-active');
+        
+        // 显示所有活动
+        document.querySelectorAll('.activity-card').forEach(card => {
+          card.style.display = 'block';
+        });
+      });
+      
+      document.getElementById('applyFilterBtn').addEventListener('click', function() {
+        this.innerHTML = '筛选中...';
+        this.classList.add('loading');
+        
+        // 模拟筛选过程
+        setTimeout(() => {
+          this.innerHTML = '应用筛选';
+          this.classList.remove('loading');
+          
+          // 这里可以添加实际的筛选逻辑
+          alert('筛选条件已应用！');
+        }, 800);
+      });
+      
+      // 5. 排序功能
+      document.getElementById('sortSelect').addEventListener('change', function() {
+        const sortType = this.value;
+        let message = '';
+        
+        switch(sortType) {
+          case 'latest':
+            message = '按最新发布排序';
+            break;
+          case 'popular':
+            message = '按热门优先排序';
+            break;
+          case 'time':
+            message = '按时间优先排序';
+            break;
+        }
+        
+        // 模拟排序过程
+        const activitiesGrid = document.getElementById('activitiesGrid');
+        activitiesGrid.style.opacity = '0.5';
+        
+        setTimeout(() => {
+          activitiesGrid.style.opacity = '1';
+          alert(`已${message}`);
+        }, 600);
+      });
+      
+      // 6. 查看活动详情
+      document.querySelectorAll('.view-activity-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const activityId = this.getAttribute('data-id');
+          const activityTitle = this.closest('.activity-card').querySelector('.activity-title').textContent;
+          
+          // 显示加载状态
+          this.innerHTML = '<i class="fa fa-spinner fa-spin mr-1"></i> 加载中...';
+          
+          // 模拟加载延迟
+          setTimeout(() => {
+            window.location.href = `activity-detail.html?id=${activityId}&title=${encodeURIComponent(activityTitle)}`;
+          }, 600);
+        });
+      });
+      
+      // 7. 收藏活动功能
+      document.querySelectorAll('.favorite-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation(); // 防止事件冒泡
+          const icon = this.querySelector('i');
+          
+          if (icon.classList.contains('fa-heart-o')) {
+            // 收藏
+            icon.classList.remove('fa-heart-o');
+            icon.classList.add('fa-heart');
+            this.classList.add('text-danger');
+            
+            // 显示收藏成功提示
+            showToast('收藏成功');
+          } else {
+            // 取消收藏
+            icon.classList.remove('fa-heart');
+            icon.classList.add('fa-heart-o');
+            this.classList.remove('text-danger');
+            
+            // 显示取消收藏提示
+            showToast('已取消收藏');
+          }
+        });
+      });
+      
+      // 8. 加载更多活动
+      document.getElementById('loadMoreBtn').addEventListener('click', function() {
+        this.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> 加载中...';
+        
+        // 模拟加载更多
+        setTimeout(() => {
+          this.innerHTML = '没有更多活动了';
+          this.disabled = true;
+          this.classList.add('opacity-50', 'cursor-not-allowed');
+        }, 1500);
+      });
+      
+      // 9. 轮播Banner报名按钮
+      document.getElementById('bannerRegisterBtn').addEventListener('click', function() {
+        this.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> 处理中...';
+        
+        // 模拟报名过程
+        setTimeout(() => {
+          window.location.href = 'activity-detail.html?id=0&title=2025校园文化艺术节';
+        }, 800);
+      });
+      
+      // 10. 退出登录功能
+      document.getElementById('logoutBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (confirm('确定要退出登录吗？')) {
+          // 模拟退出登录过程
+          this.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> 退出中...';
+          
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 1000);
+        }
+      });
+      
+      // 11. 移动端菜单按钮
+      document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        alert('移动端菜单功能待实现');
+      });
+      
+      // 提示消息函数
+      function showToast(message) {
+        // 创建提示元素
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-4 right-4 bg-neutral-700 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300 transform translate-y-[-20px] opacity-0';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        // 显示提示
+        setTimeout(() => {
+          toast.classList.remove('translate-y-[-20px]', 'opacity-0');
+        }, 10);
+        
+        // 3秒后隐藏提示
+        setTimeout(() => {
+          toast.classList.add('translate-y-[-20px]', 'opacity-0');
+          setTimeout(() => {
+            document.body.removeChild(toast);
+          }, 300);
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html>

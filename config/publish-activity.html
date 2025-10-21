@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>温理工校园活动网-发布活动</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 延续Tailwind配置（与首页保持一致） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#36CFC9',
+            neutral: {
+              100: '#F5F7FA',
+              200: '#E4E6EB',
+              300: '#C9CDD4',
+              400: '#86909C',
+              500: '#4E5969',
+              600: '#272E3B',
+              700: '#1D2129',
+            }
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'card': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02)',
+            'input': '0 2px 5px rgba(22, 93, 255, 0.08)',
+            'button': '0 4px 14px rgba(22, 93, 255, 0.35)',
+          }
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .input-focus {
+        @apply focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none;
+      }
+      .btn-effect {
+        @apply transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98];
+      }
+    }
+  </style>
+</head>
+<body class="font-inter bg-neutral-100 min-h-screen">
+  <!-- 顶部导航栏（与首页保持一致，便于导航） -->
+  <header class="sticky top-0 z-50 bg-white shadow-sm transition-all duration-300">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between h-16">
+        <!-- 左侧Logo -->
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
+            <i class="fa fa-calendar text-white"></i>
+          </div>
+          <h1 class="text-xl font-bold text-neutral-700">温理工校园活动网</h1>
+        </div>
+        
+        <!-- 右侧功能区 -->
+        <div class="flex items-center space-x-4">
+          <!-- 用户信息 -->
+          <div class="relative group">
+            <button class="flex items-center space-x-2 focus:outline-none">
+              <img src="https://picsum.photos/200/200?random=1" alt="用户头像" class="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm">
+              <span class="hidden sm:inline-block text-neutral-600 font-medium">张同学</span>
+              <i class="fa fa-angle-down text-neutral-400 text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容区-活动发布表单 -->
+  <main class="container mx-auto px-4 py-8">
+    <div class="w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-card p-6 md:p-8">
+      <h2 class="text-2xl font-bold text-neutral-700 mb-6">发布校园活动</h2>
+      
+      <form class="space-y-6">
+        <!-- 活动基本信息 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="activity-title" class="block text-sm font-medium text-neutral-600 mb-2">活动标题 <span class="text-danger">*</span></label>
+            <input type="text" id="activity-title" class="w-full px-4 py-3 border border-neutral-200 rounded-lg shadow-input transition-all duration-300 input-focus" placeholder="请输入活动标题" required>
+          </div>
+          
+          <div>
+            <label for="activity-type" class="block text-sm font-medium text-neutral-600 mb-2">活动类型 <span class="text-danger">*</span></label>
+            <select id="activity-type" class="w-full px-4 py-3 border border-neutral-200 rounded-lg shadow-input transition-all duration-300 input-focus appearance-none bg-white" required>
+              <option value="">请选择活动类型</option>
+              <option value="academic">学术讲座</option>
+              <option value="cultural">文艺活动</option>
+              <option value="sports">体育赛事</option>
+              <option value="volunteer">志愿服务</option>
+              <option value="innovation">创新创业</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- 活动时间与地点 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="activity-time" class="block text-sm font-medium text-neutral-600 mb-2">活动时间 <span class="text-danger">*</span></label>
+            <input type="datetime-local" id="activity-time" class="w-full px-4 py-3 border border-neutral-200 rounded-lg shadow-input transition-all duration-300 input-focus" required>
+          </div>
+          
+          <div>
+            <label for="activity-location" class="block text-sm font-medium text-neutral-600 mb-2">活动地点 <span class="text-danger">*</span></label>
+            <input type="text" id="activity-location" class="w-full px-4 py-3 border border-neutral-200 rounded-lg shadow-input transition-all duration-300 input-focus" placeholder="请输入活动地点" required>
+          </div>
+        </div>
+        
+        <!-- 活动详情 -->
+        <div>
+          <label for="activity-desc" class="block text-sm font-medium text-neutral-600 mb-2">活动详情 <span class="text-danger">*</span></label>
+          <textarea id="activity-desc" rows="5" class="w-full px-4 py-3 border border-neutral-200 rounded-lg shadow-input transition-all duration-300 input-focus" placeholder="请详细描述活动内容、参与要求等信息" required></textarea>
+        </div>
+        
+        <!-- 活动图片 -->
+        <div>
+          <label class="block text-sm font-medium text-neutral-600 mb-2">活动封面图 <span class="text-danger">*</span></label>
+          <div class="border-2 border-dashed border-neutral-300 rounded-lg p-6 text-center hover:border-primary transition-colors duration-300">
+            <input type="file" accept="image/*" class="hidden" id="activity-image">
+            <label for="activity-image" class="cursor-pointer flex flex-col items-center justify-center">
+              <i class="fa fa-cloud-upload text-4xl text-neutral-400 mb-2"></i>
+              <span class="text-sm text-neutral-500">点击或拖拽图片到此处上传</span>
+              <span class="text-xs text-neutral-400 mt-1">支持JPG、PNG格式，建议尺寸600x400</span>
+            </label>
+          </div>
+        </div>
+        
+        <!-- 发布按钮 -->
+        <div class="flex justify-end space-x-3">
+          <button type="button" class="px-4 py-3 border border-neutral-200 rounded-lg text-neutral-600 hover:border-neutral-300 transition-all duration-300">
+            保存草稿
+          </button>
+          <button type="submit" class="px-4 py-3 bg-primary text-white rounded-lg shadow-button hover:bg-primary/90 transition-all duration-300 btn-effect">
+            发布活动
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- JavaScript-表单交互（可选，可根据需求完善） -->
+  <script>
+    // 示例：表单提交处理
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const submitBtn = this.querySelector('button[type="submit"]');
+      submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> 发布中...';
+      submitBtn.disabled = true;
+      
+      // 模拟接口请求延迟
+      setTimeout(() => {
+        alert('活动发布成功！');
+        window.location.href = 'index.html'; // 发布成功后返回首页
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
