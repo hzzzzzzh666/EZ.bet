@@ -3,7 +3,6 @@
 ## Team Members
 
 Zihao He, Jiabao Li, Xingping Liu, Kewei Wu, Yuzhe Huang
-
 2025/10/21
 ## Task Assignment
 |Name|Role|
