@@ -1,185 +1,192 @@
-Campus Activity Publisher
-Team Members
-Lasson Li, Eric Huang, David Zhao, Shea Jin, Rina Li
-2025/07/28
+# Campus Activity Platform
 
-Task Assignment
-Name	Role
-Lasson Li	Back-End Developer
-Rina Li	Back-End Developer
-Shea Jin	PM, Back-End Developer
-David Zhao	Front-End Developer
-Eric Huang	Front-End Developer
-Overview of the Campus Activity Publisher Project
-The Campus Activity Publisher is a web-based application system built to streamline campus activity management. It provides a centralized platform for organizations to publish activities and for students to browse and register for events efficiently.
+## Team Members
 
-Key Features
-User Authentication & Permission Management
-User registration, login/logout functionality
+Zihao He, Jiabao Li, Xingping Liu, Kewei Wu, Yuzhe Huang
+2025/10/21
+## Task Assignment
+|Name|Role|
+|-|-|
+|Zihao He|PM|
+|Xingping Liu|Front-End Developer|
+|Yuzhe Huang|Front-End Developer|
+|Jiabao Li|Back-End Developer|
+|Kewei Wu|Database Developer|
+----------
+## Overview of the Campus Activity Platform
 
-Role-based access control (students, organizers, administrators)
 
-Password recovery system
+The Campus Activity Platform is a web-based application designed to streamline the process of publishing, managing, and signing up for campus activities. It provides a centralized solution for student organizations and participants.
 
-Activity Core Functions
-Create, browse, search, and register for activities
+### Key Features
 
-Activity details with comprehensive information
 
-Custom registration forms for different activities
+#### Activity Management
 
-Personal Center & Management
-Track personal registrations and published activities
 
-Message notifications for system and activity updates
+-   APIs to create, update, and retrieve activities.
+-   Supports operations like publishing, editing, and managing activity details.
+-   Tracks activity information such as time, location, capacity, and registration status.
 
-User profile management
+#### Registration Management
 
-Data & Content Management (Admin)
-User account and permission management
 
-Activity review and management system
+-   APIs to handle participant registration and cancellation
+-   Manages registration details including custom form fields and participant data.
+-   Supports operations like "register", "cancel", and "view participants".
 
-Activity category/tag management
+#### User Management
 
-Extended Features
-Activity comment/Q&A section for user interaction
 
-Advanced search and filtering capabilities
+-   Comprehensive user authentication and authorization system.
+-   Role-based access control for participants, organizers, and administrators.
 
-Project Structure
-Campus Activity Publisher
-app.js # Main entry point of the application
+#### API Documentation
 
-config/
 
-db.js # Database configuration and connection pool
+-   Integrated Swagger UI for API documentation.
+-   Provides detailed documentation for all endpoints, including request and response formats.
 
-controllers/
+----------
 
-authController.js # Handles user authentication operations
+## Project Structure
 
-activityController.js # Handles activity-related operations
 
-userController.js # Handles user management operations
+```
+CampusActivityPlatform/
+├── app.js                 # Main entry point of the application
+├── config/
+│   └── db.js             # Database configuration and connection pool
+├── controllers/
+│   ├── authController.js      # Handles user authentication operations
+│   ├── activityController.js  # Handles activity-related operations
+│   ├── registrationController.js # Handles registration operations
+│   └── userController.js      # Handles user management operations
+├── models/
+│   ├── userModel.js          # Database queries for users
+│   ├── activityModel.js      # Database queries for activities
+│   └── registrationModel.js  # Database queries for registrations
+├── routes/
+│   ├── auth.js              # Routes for authentication APIs
+│   ├── activities.js        # Routes for activity-related APIs
+│   ├── registrations.js     # Routes for registration APIs
+│   └── users.js             # Routes for user management APIs
+├── middleware/
+│   └── authMiddleware.js    # Authentication and authorization middleware
+└── swagger.js              # Swagger configuration for API documentation
 
-models/
+```
 
-userModel.js # Database queries for users
+----------
+## Key Components
 
-activityModel.js # Database queries for activities
 
-registrationModel.js # Database queries for registrations
+### 1. Database Configuration (`config/db.js`)
 
-routes/
 
-auth.js # Routes for authentication APIs
+-   Uses  `mysql2/promise`  to manage database connections.
+-   Provides a connection pool for efficient database operations.
 
-activities.js # Routes for activity-related APIs
+### 2. Controllers
 
-users.js # Routes for user management APIs
 
-swagger.js # Swagger configuration for API documentation
+-   **`assetsController.js`**: Handles user registration, login, and session management.
+-   **`activityController.js`**: Handles activity creation, updates, retrieval, and management.
+-   **`registrationController.js`**: Manages participant registration, cancellation, and participant lists.
+-   **`userController.js`**: Handles user profile management and administrative user operations.
 
-node_modules/ # Dependencies installed via npm
+### 3. Models
 
-Key Components
-1. Database Configuration (config/db.js)
-Uses mysql2/promise to manage database connections
 
-Provides a connection pool for efficient database operations
+-   **`userModel.js`**: Contains database queries for managing users, including authentication and profile management.
+-   **`activityModel.js`**: Contains database queries for managing activities, including CRUD operations and filtering.
+-   **`registrationModel.js`**: Contains database queries for managing registrations and participant data.
 
-2. Controllers
-authController.js: Handles user authentication, registration, and session management
+### 4. Routes
 
-activityController.js: Manages activity creation, updates, retrieval, and registration processes
 
-userController.js: Handles user profile management and administrative functions
+-   **`auth.js`**: Defines routes for authentication operations (e.g.,  `POST /auth/register`,  `POST /auth/login`).
+-   **`activities.js`**: Defines routes for activity-related operations (e.g.,  `GET /activities`,   `POST /activities`,  `PUT /activities/:id`).
+-   **`registrations.js`**: Defines routes for registration operations (e.g.,  `POST /registrations`,  `DELETE /registrations/:id`).
+-   **`users.js`**: Defines routes for user management operations (e.g.,  `GET /users/profile`,  `PUT /users/profile`).
 
-3. Models
-userModel.js: Contains database queries for user management, authentication, and profile operations
+### 5. Swagger Integration (`swagger.js`)
 
-activityModel.js: Contains database queries for activity CRUD operations and search functionality
 
-registrationModel.js: Contains database queries for managing activity registrations and participant data
+-   Configures Swagger UI for API documentation.
+-   Automatically generates documentation from annotations in route files.
 
-4. Routes
-auth.js: Defines routes for authentication operations (POST /auth/register, POST /auth/login)
+----------
 
-activities.js: Defines routes for activity operations (GET /activities, POST /activities, PUT /activities/:id)
+## Example API Endpoints
 
-users.js: Defines routes for user management (GET /users/profile, PUT /users/profile)
 
-5. Swagger Integration (swagger.js)
-Configures Swagger UI for comprehensive API documentation
+### Authentication
 
-Example API Endpoints
-Authentication
-POST /auth/register: User registration
+-   `POST /auth/register`: User registration.
+-   `POST /auth/login`: User login.
+-   `POST /auth/logout`: User logout.
 
-POST /auth/login: User login
+### Activity Management
 
-POST /auth/logout: User logout
 
-Activity Management
-GET /activities: Fetch all published activities with filtering
+-   `GET /activities`: Fetch all published activities.
+-   `POST /activities`: Create a new activity (organizers only).
+-   `GET /activities/:id`: Fetch specific activity details.
+-   `PUT /activities/:id`: Update an activity.
+-   `DELETE /activities/:id`: Delete an activity.
 
-POST /activities: Create a new activity (organizer role required)
+### Registration Management
 
-GET /activities/:id: Fetch detailed information for a specific activity
 
-PUT /activities/:id: Update an existing activity
+-   `POST /registrations`: Register for an activity.
+-   `DELETE /registrations/:id`: Cancel registration.
+-   `GET /activities/:id/participants`: Get participant list (organizers only).
 
-Registration Management
-POST /activities/:id/register: Register for an activity
+----------
 
-DELETE /activities/:id/register: Cancel registration
+## Technologies Used
 
-User Management
-GET /users/profile: Get user profile information
 
-PUT /users/profile: Update user profile
+-   **Node.js**: Backend runtime environment.
+-   **Express.js**: Web framework for building APIs.
+-   **MySQL**: Relational database for storing users, activities, and registrations.
+-   **Swagger**: API documentation and testing.
+-   **Yahoo Finance API**:JSON Web Tokens for authentication.
 
-GET /users/my-registrations: Get user's activity registrations
+----------
 
-GET /users/my-activities: Get user's published activities
+## How to Run the Project
 
-Potential Enhancements
-Real-time Notifications: Implement WebSocket for real-time activity updates and messages
 
-Mobile Application: Develop companion mobile apps for iOS and Android
+### Install Dependencies
 
-Calendar Integration: Sync activities with popular calendar applications
-
-Analytics Dashboard: Provide organizers with participation analytics and insights
-
-Payment Integration: Support paid activities with secure payment processing
-
-Social Features: Add activity sharing and social media integration
-
-This project provides a comprehensive foundation for managing campus activities, with extensive room for future enhancements and scalability.
-
-Technologies Used
-Node.js: Backend runtime environment
-
-Express.js: Web framework for building APIs
-
-MySQL: Relational database for storing users, activities, and registrations
-
-Swagger: API documentation and testing
-
-JWT: JSON Web Tokens for secure authentication
-
-How to Run the Project
-Install Dependencies
-bash
 npm install
-Start the Server
-bash
+
+### Start the Server
+
+
 node app.js
-Access the API Documentation
-Open http://localhost:3000/api-docs in your browser.
 
-Test the APIs
-Use tools like Postman or cURL to test the endpoints, or utilize the integrated Swagger UI for interactive testing.
+### Access the API Documentation
 
+
+Open  [http://localhost:3000/api-docs](http://localhost:3000/api-docs)  in your browser.
+
+### Test the APIs
+
+
+Use tools like Postman or cURL to test the endpoints.
+
+----------
+
+## Potential Enhancements
+
+
+-   ****Email Notifications****: Implement email service for activity reminders and notifications.
+-   ****Real-time Chat****:  Add real-time messaging for activity discussions and Q&A.
+-   ****Mobile Application****: Develop companion mobile app for better user experience.
+-   ****Advanced Analytics****:Add reporting and analytics for activity participation trends.
+-   ****Calendar Integration****: Sync activities with popular calendar applications.
+
+This project provides a solid foundation for managing campus activities, registrations, and user interactions, with room for further enhancements.
