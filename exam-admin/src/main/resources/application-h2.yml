@@ -1,0 +1,53 @@
+server:
+  port: 9090
+spring:
+  servlet:
+    multipart:
+      # 最大文件大小
+      max-file-size: 10MB
+      # 最大请求大小
+      max-request-size: 10MB
+  # json序列化date类型时候防止出现 T
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+  # H2数据库配置
+  datasource:
+    username: sa
+    password: 
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    # 初始化脚本
+    schema: classpath:db/schema.sql
+    data: classpath:db/data.sql
+    # H2控制台配置
+    h2:
+      console:
+        enabled: true
+        path: /h2-console
+        settings:
+          web-allow-others: true
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    timeout: 1800000
+    password: 123456
+    jedis:
+      pool:
+        max-active: 20 #最大连接数
+        max-wait: -1    #最大阻塞等待时间(负数表示没限制)
+        max-idle: 5    #最大空闲
+        min-idle: 0     #最小空闲
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.wzz.entity
+  configuration:
+    # 配置日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 自定义文件上传路径
+file:
+  uploadDir: D:/Java/projects/exam_system-master/images/
